@@ -1,36 +1,87 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Sedayu Living — Platform Sewa Kos, Kontrakan & Apartemen
 
-## Getting Started
+Website profesional untuk bisnis hunian sewa (kos, kontrakan, apartemen) dengan
+teknologi modern **Next.js 16 + TypeScript + Tailwind CSS v4**, siap deploy di **Vercel**.
 
-First, run the development server:
+## Struktur Halaman
+
+| Route                    | Keterangan                                          |
+| ------------------------ | --------------------------------------------------- |
+| `/`                      | Beranda (hero + pencarian, keunggulan, testimoni, FAQ) |
+| `/properti`              | Direktori semua properti + filter                   |
+| `/kos`                   | Halaman khusus kategori kos                         |
+| `/kontrakan`             | Halaman khusus kategori kontrakan                   |
+| `/apartemen`             | Halaman khusus kategori apartemen                   |
+| `/properti/[slug]`       | Detail unit (galeri, fasilitas, harga, survei)      |
+| `/tentang`               | Tentang perusahaan, nilai, cara sewa, tim           |
+| `/kontak`                | Form kontak + lokasi + WhatsApp                     |
+
+## Tech Stack
+
+- **Next.js 16** (App Router, RSC, Turbopack) — SSR/SSG otomatis
+- **TypeScript** — type-safe
+- **Tailwind CSS v4** — design system berbasis `@theme`
+- **next/font** — self-hosted `Fraunces` (display serif) + `Inter` (body)
+- **next/image** — optimasi & responsive image (Unsplash)
+- **lucide-react** — ikonografi ringan
+
+## Design System
+
+Palet **"Trust & Warmth"** (aturan 60-30-10):
+
+- 60% netral `sand` (krem hangat) — background
+- 30% brand `teal` (#0f4541 s/d #eef6f4) — trust & premium
+- 10% accent `amber` (#e8a33d) — call-to-action & warmth
+
+Didefinisikan di `src/app/globals.css` dalam `@theme`. Kustomisasi cukup edit token warna,
+tipe scale, dan spacing — seluruh komponen mengikuti otomatis.
+
+## Menjalankan Lokal
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Buka [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Verifikasi Produksi
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run lint   # eslint
+npm run build  # next build (prerender statis + SSG)
+npm run start  # serve production build
+```
 
-## Learn More
+## Deploy ke Vercel
 
-To learn more about Next.js, take a look at the following resources:
+### Cara 1 — Git + Vercel (recommended)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+git init
+git add .
+git commit -m "init sedayu-living"
+vercel    # lalu ikuti prompt
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Cara 2 — Vercel Dashboard
 
-## Deploy on Vercel
+1. Push repo ini ke GitHub/GitLab/Bitbucket.
+2. Di [vercel.com/new](https://vercel.com/new), import repo.
+3. Framework preset otomatis terdeteksi **Next.js** (Framework Preset).
+4. Build command: `npm run build`. Output: `.next`. Tidak perlu env var.
+5. Klik **Deploy**.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Kustomisasi Konten
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Semua konten properti, testimoni, dan FAQ berada di satu file:
+
+```
+src/lib/data.ts
+```
+
+Tambah/ubah properti dengan mengikuti interface `Property`. Halaman deklaratif otomatis
+menyesuaikan (listing, detail, sitemap).
+
+Foto properti memakai Unsplash; ganti `image`/`gallery` dengan URL milik sendiri
+(jangan lupa sesuaikan `next.config.ts` → `images.remotePatterns` bila host berbeda).
